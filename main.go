@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/csv"
 	"flag"
+	"fmt"
 	"log"
 	"os"
 )
@@ -11,6 +12,8 @@ type problem struct {
 	question string
 	answer   string
 }
+
+var count int
 
 func main() {
 	csvFileName := flag.String("csv", "quiz.csv", "a csv file which contain questions and answers")
@@ -34,9 +37,22 @@ func main() {
 	// 	fmt.Println(v)
 	// }
 
-	parseLines(records)
+	problems := parseLines(records)
+	var ans string
+	for i, v := range problems {
+		fmt.Printf("Problem No : %d \n\t  %s : \n", i+1, v.question)
+		fmt.Scanf("%s\n", &ans)
+		if v.answer == ans {
+			fmt.Println("---->  Right Answer  <----")
+			count++
+		} else {
+			fmt.Println("---->  Wrong Answer  <----")
+		}
+	}
 
-} 
+	fmt.Printf("Your Score Is %d Out Of %d ", count, len(problems))
+
+}
 
 func parseLines(lines [][]string) []problem {
 
